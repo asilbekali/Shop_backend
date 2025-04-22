@@ -6,12 +6,16 @@ import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { MailService } from 'src/mail/mail.service';
+import { SmsService } from 'src/sms/sms.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly user: Model<User>,
     private readonly jwt: JwtService,
+    private readonly mailer: MailService,
+    private readonly sms: SmsService
   ) {}
 
   async findUser(name: string) {
@@ -30,6 +34,7 @@ export class UserService {
       ...data,
       password: hash,
     });
+
 
     return newUser
   }
@@ -56,6 +61,14 @@ export class UserService {
       id: user.id,
       role: user.role,
     });
+
+    if (!data.gmail) {
+      throw new BadRequestException('Gmail is required!');
+    }
+    
+    this.sms.sendSms("+998332917882", "aedwe")
+    this.mailer.sendEmail(data.gmail, "New Login", "Yor accaunt logging another deviced")
+    
     return { token };
   }
 

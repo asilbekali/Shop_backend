@@ -19,12 +19,18 @@ const user_entity_1 = require("./entities/user.entity");
 const mongoose_2 = require("mongoose");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
+const mail_service_1 = require("../mail/mail.service");
+const sms_service_1 = require("../sms/sms.service");
 let UserService = class UserService {
     user;
     jwt;
-    constructor(user, jwt) {
+    mailer;
+    sms;
+    constructor(user, jwt, mailer, sms) {
         this.user = user;
         this.jwt = jwt;
+        this.mailer = mailer;
+        this.sms = sms;
     }
     async findUser(name) {
         let user = await this.user.findOne({ name });
@@ -58,6 +64,11 @@ let UserService = class UserService {
             id: user.id,
             role: user.role,
         });
+        if (!data.gmail) {
+            throw new common_1.BadRequestException('Gmail is required!');
+        }
+        this.sms.sendSms("+998332917882", "aedwe");
+        this.mailer.sendEmail(data.gmail, "New Login", "Yor accaunt logging another deviced");
         return { token };
     }
     async userData() {
@@ -69,6 +80,8 @@ exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(user_entity_1.User.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        mail_service_1.MailService,
+        sms_service_1.SmsService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

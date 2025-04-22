@@ -14,14 +14,22 @@ const mongoose_1 = require("@nestjs/mongoose");
 const user_module_1 = require("./user/user.module");
 const film_module_1 = require("./film/film.module");
 const author_module_1 = require("./author/author.module");
+const mail_module_1 = require("./mail/mail.module");
+const sms_service_1 = require("./sms/sms.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forRoot('mongodb://localhost/film'), user_module_1.UserModule, film_module_1.FilmModule, author_module_1.AuthorModule],
+        imports: [
+            mongoose_1.MongooseModule.forRoot("mongodb://localhost/film"),
+            user_module_1.UserModule,
+            film_module_1.FilmModule,
+            author_module_1.AuthorModule,
+            mail_module_1.MailModule,
+        ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, sms_service_1.SmsService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

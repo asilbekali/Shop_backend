@@ -13,6 +13,8 @@ const user_controller_1 = require("./user.controller");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_entity_1 = require("./entities/user.entity");
 const jwt_1 = require("@nestjs/jwt");
+const mail_service_1 = require("../mail/mail.service");
+const sms_service_1 = require("../sms/sms.service");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
@@ -25,7 +27,7 @@ exports.UserModule = UserModule = __decorate([
             })
         ],
         controllers: [user_controller_1.UserController],
-        providers: [user_service_1.UserService],
+        providers: [user_service_1.UserService, mail_service_1.MailService, sms_service_1.SmsService],
     })
 ], UserModule);
 //# sourceMappingURL=user.module.js.map

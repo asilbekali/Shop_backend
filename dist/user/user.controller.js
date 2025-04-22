@@ -51,6 +51,7 @@ __decorate([
             properties: {
                 name: { type: 'string', example: 'Alex' },
                 password: { type: 'string', example: 'StronPassword_1' },
+                gmail: { type: "string", example: "Alex@gmail.com" }
             },
         },
     }),
